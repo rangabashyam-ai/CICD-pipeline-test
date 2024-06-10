@@ -30,14 +30,14 @@ jobs:
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-          login-server: CICDgithubactions.azurecr.io
+          login-server: cicdgithubactions.azurecr.io
           username: ${{ secrets.AZURE_CR_USERNAME }}
           password: ${{ secrets.AZURE_CR_PASSWORD }}
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag CICDtrial:v1 CICDgithubactions.azurecr.io/CICDtrial:v1
-          docker push CICDgithubactions.azurecr.io/CICDtrial:v1
+          docker tag CICDtrial:v1 cicdgithubactions.azurecr.io/CICDtrial:v1
+          docker push cicdgithubactions.azurecr.io/CICDtrial:v1
 
   deploy:
     needs: build
@@ -51,4 +51,4 @@ jobs:
           app-name: CICDgithubactions
           slot-name: production
           #publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'CICDgithubactions.azurecr.io/CICDtrial:v1'
+          images: 'cicdgithubactions.azurecr.io/CICDtrial:v1'

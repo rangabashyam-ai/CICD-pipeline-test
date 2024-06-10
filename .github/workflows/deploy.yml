@@ -30,14 +30,14 @@ jobs:
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-          login-server: cicdgithubactions.azurecr.io
+          login-server: trialcicd.azurecr.io
           username: ${{ secrets.AZURE_CR_USERNAME }}
           password: ${{ secrets.AZURE_CR_PASSWORD }}
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag convogen:v1 cicdgithubactions.azurecr.io/convogen:v1
-          docker push cicdgithubactions.azurecr.io/convogen:v1
+          docker tag trial:v7 trialcicd.azurecr.io/trial:v7
+          docker push trialcicd.azurecr.io/trial:v7
 
   deploy:
     needs: build
@@ -48,7 +48,7 @@ jobs:
       - name: Azure Web App Deploy
         uses: azure/webapps-deploy@v2
         with:
-          app-name: CICDgithubactions
+          app-name: trialgithubactions
           slot-name: production
           #publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'cicdgithubactions.azurecr.io/convogen:v1'
+          images: 'trialcicd.azurecr.io/trial:v7'

@@ -36,8 +36,8 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag flask_app:latest <your_azure_container_registry>.azurecr.io/flask_app:latest
-          docker push <your_azure_container_registry>.azurecr.io/flask_app:latest
+          docker tag flask_app:latest CICDgithubactions.azurecr.io/flask_app:latest
+          docker push <CICDgithubactions.azurecr.io/flask_app:latest
 
   deploy:
     needs: build

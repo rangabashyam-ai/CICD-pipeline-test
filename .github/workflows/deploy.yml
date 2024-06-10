@@ -36,7 +36,7 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag CICDtrial : v1 CICDgithubactions.azurecr.io/CICDtrial:v1
+          docker tag CICDtrial:v1 CICDgithubactions.azurecr.io/CICDtrial:v1
           docker push CICDgithubactions.azurecr.io/CICDtrial:v1
 
   deploy:

@@ -36,7 +36,7 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag CICDtrial:v1 cicdgithubactions.azurecr.io/convogen:v1
+          docker tag convogen:v1 cicdgithubactions.azurecr.io/convogen:v1
           docker push cicdgithubactions.azurecr.io/convogen:v1
 
   deploy:

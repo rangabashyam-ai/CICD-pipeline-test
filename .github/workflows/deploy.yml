@@ -36,8 +36,8 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag CICDtrial:v1 cicdgithubactions.azurecr.io/CICDtrial:v1
-          docker push cicdgithubactions.azurecr.io/CICDtrial:v1
+          docker tag CICDtrial:v1 cicdgithubactions.azurecr.io/convogen:v1
+          docker push cicdgithubactions.azurecr.io/convogen:v1
 
   deploy:
     needs: build
@@ -51,4 +51,4 @@ jobs:
           app-name: CICDgithubactions
           slot-name: production
           #publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'cicdgithubactions.azurecr.io/CICDtrial:v1'
+          images: 'cicdgithubactions.azurecr.io/convogen:v1'

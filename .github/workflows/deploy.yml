@@ -52,3 +52,4 @@ jobs:
           slot-name: production
           #publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'trialcicd.azurecr.io/trial:v7'
+          File: .github/workflows/workflow.yml

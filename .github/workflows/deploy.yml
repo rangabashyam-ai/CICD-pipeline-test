@@ -42,7 +42,16 @@ jobs:
         run: |
           docker tag trial:v7 trialcicd.azurecr.io/trial:v7
           docker push trialcicd.azurecr.io/trial:v7
+---
+on: [push]
 
+name: Run Azure Login without subscription
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -50,14 +59,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-
+        uses: actions/checkout@v2              
+        
       - name: Azure Login
-        uses: azure/login@v2
+        uses: Azure/login@v2.1.1  
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           allow-no-subscriptions: true
           enable-AzPSSession: true
 

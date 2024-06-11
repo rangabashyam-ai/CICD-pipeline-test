@@ -31,61 +31,15 @@ jobs:
         run: |
           docker build -t trial:v7 .
 
-      - name: Log in to Azure Container Registry
-        uses: azure/docker-login@v1
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
         with:
-          login-server: trialcicd.azurecr.io
-          username: ${{ secrets.AZURE_CR_USERNAME }}
-          password: ${{ secrets.AZURE_CR_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push Docker image to Azure Container Registry
-        run: |
-          docker tag trial:v7 trialcicd.azurecr.io/trial:v7
-          docker push trialcicd.azurecr.io/trial:v7
----
-on: [push]
-
-name: Run Azure Login without subscription
-
-jobs:
-
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: production
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2              
-        
-      - name: Azure Login
-        uses: Azure/login@v2.1.1  
+      - name: Push Docker image to Docker Hub
+        uses: docker/build-push-action@v2
         with:
-          client-id: "de7a3bac-367c-4c3f-af78-d8c06dfa569c"
-          tenant-id: "e8f254ca-58a4-4463-a209-75bd0ddb57b4"
-          allow-no-subscriptions: true
-          enable-AzPSSession: true
-
-      - name: Azure CLI script
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
-
-      - name: Run Azure PowerShell
-        uses: azure/powershell@v2
-        with:
-          azPSVersion: "latest"
-          inlineScript: |
-            Get-AzContext
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: trialgithubactions
-          slot-name: production
-          images: 'trialcicd.azurecr.io/trial:v7'
+          context: .
+          push: true
+          tags: rangabashyam/trialcicd:v1

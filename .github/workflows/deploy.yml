@@ -1,9 +1,10 @@
 name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build:
@@ -45,11 +46,26 @@ jobs:
     environment: production
 
     steps:
-      - name: Azure Web App Deploy
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: trialgithubactions
           slot-name: production
-          #publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'trialcicd.azurecr.io/trial:v7'
-          File: .github/workflows/workflow.yml

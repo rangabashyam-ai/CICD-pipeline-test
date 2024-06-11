@@ -1,10 +1,9 @@
 name: CI/CD Pipeline
 
-on: [push]
-
-permissions:
-  id-token: write
-  contents: read
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -49,19 +48,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Azure login with OIDC
-        uses: azure/login@v2
+      - name: Log in to Azure
+        uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Azure CLI script
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2

@@ -64,10 +64,8 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v2.1.1  
         with:
-          username: ${{ secrets.AZURE_CR_USERNAME }}
-          password: ${{ secrets.AZURE_CR_PASSWORD }}
-          # client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          # tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-id: "de7a3bac-367c-4c3f-af78-d8c06dfa569c"
+          tenant-id: "e8f254ca-58a4-4463-a209-75bd0ddb57b4"
           allow-no-subscriptions: true
           enable-AzPSSession: true
 
